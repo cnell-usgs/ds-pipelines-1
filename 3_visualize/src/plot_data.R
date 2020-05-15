@@ -3,13 +3,12 @@
 ## preliminaries 
 library(dplyr)
 library(readr)
-library(whisker)
 
 ## function that takes process model RMSE data and produces plot
 
-plot_data<-function(input_path = '2_process/out/model_summary_results.csv', output_path = '3_visualize/out/figure_1.png'){
+plot_data<-function(input_path = '2_process/out/model_summary_results.csv', output_path = '3_visualize/out/figure_1.png', verbose = TRUE){
   
-  input_data<-readr::read_csv(input_path)
+  input_data <- readr::read_csv(input_path)
   
   png(file = output_path, width = 8, height = 10, res = 200, units = 'in')
   par(omi = c(0,0,0.05,0.05), mai = c(1,1,0,0), las = 1, mgp = c(2,.5,0), cex = 1.5)
@@ -54,7 +53,7 @@ plot_data<-function(input_path = '2_process/out/model_summary_results.csv', outp
   
   dev.off()
   
-  print(paste('Plot generated in', output_path))
+  if(verbose) message('Plot generated in', output_path)
   
   
 }

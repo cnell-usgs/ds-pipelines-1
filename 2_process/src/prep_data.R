@@ -9,7 +9,7 @@ library(stringr)
 ### add vars for col and pch based on model_type, & n_prof
 ### saves & returns processed dataframe 
 
-prep_data<-function(input_path = '1_fetch/out/model_RMSEs.csv', output_path = '2_process/out/model_summary_results.csv'){
+prep_data<-function(input_path = '1_fetch/out/model_RMSEs.csv', output_path = '2_process/out/model_summary_results.csv', verbose = TRUE){
  
   eval_data <- readr::read_csv(input_path) %>%
     filter(str_detect(exper_id, 'similar_[0-9]+')) %>%
@@ -26,7 +26,7 @@ prep_data<-function(input_path = '1_fetch/out/model_RMSEs.csv', output_path = '2
   # save generated 
   write_csv(eval_data, output_path)
   
-  print(paste('processes RMSE data is saved to', output_path))
+  if(verbose) message('processes RMSE data is saved to', output_path)
   
   return(eval_data)
 }

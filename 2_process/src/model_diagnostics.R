@@ -9,13 +9,13 @@ library(whisker)
 ## function that produces model diagnostics
 ### default saves output to '2_process/out/model_diagnostic_text.txt
 
-get_diagnostics<-function(input_path = '2_process/out/model_summary_results.csv', output_path = '2_process/out/model_diagnostic_text.txt'){
+model_diagnostics<-function(input_path = '2_process/out/model_summary_results.csv', output_path = '2_process/out/model_diagnostic_text.txt', verbose = TRUE){
   
   # read in processed data
-  input_data<-readr::read_csv(input_path)
+  eval_data <- readr::read_csv(input_path)
   
   ## extract model diagnostics
-  render_data <- list(pgdl_980mean = filter(input_data, model_type == 'pgdl', exper_id == "similar_980") %>% pull(rmse) %>% mean %>% round(2),
+  render_data <- list(pgdl_980mean = filter(eval_data, model_type == 'pgdl', exper_id == "similar_980") %>% pull(rmse) %>% mean %>% round(2),
                       dl_980mean = filter(eval_data, model_type == 'dl', exper_id == "similar_980") %>% pull(rmse) %>% mean %>% round(2),
                       pb_980mean = filter(eval_data, model_type == 'pb', exper_id == "similar_980") %>% pull(rmse) %>% mean %>% round(2),
                       dl_500mean = filter(eval_data, model_type == 'dl', exper_id == "similar_500") %>% pull(rmse) %>% mean %>% round(2),
@@ -37,7 +37,7 @@ get_diagnostics<-function(input_path = '2_process/out/model_summary_results.csv'
                    str_replace_all('  ', ' '), render_data ) %>% 
     cat(file = output_path)
   
-  print(paste('Diagnostics saved to',output_path))
+  if(verbose) message('Diagnostics saved to',output_path)
   
 }
 
