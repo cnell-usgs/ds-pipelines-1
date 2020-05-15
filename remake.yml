@@ -1,17 +1,17 @@
-sources:
-	- code.R
-[D[D[D[D[D[D[D[D[A[C[C[C[C[C[C[C[C[C[D[A[C[C[C[C[Csources:
-  - code.R
+sources:
+  - 1_fetch/src/fetch_data.R
+  - 2_process/src/prep_data.R
+  - 3_visualize/src/plot_data.R
 
 targets:
   all:
-    depends: figure_1.png
+    depends: 3_visualize/out/figure_1.png
 
-  model_RMSEs.csv:
-    command: download_data(target_name)
+  1_fetch/out/model_RMSEs.csv:
+    command: fetch_data(target_name)
 
-  processed:
-    command: process_data("model_RMSEs.csv")
+  2_process/out/model_summary_results:
+    command: prep_data("1_fetch/out/model_RMSEs.csv", target_name)
 
-  figure_1.png:
-    command: myplot(target_name, processed)
+  3_visualize/out/figure_1.png:
+    command: plot_data('2_process/out/model_summary_results.csv', target_name)
