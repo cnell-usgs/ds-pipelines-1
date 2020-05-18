@@ -1,0 +1,17 @@
+sources:
+  - 1_fetch/src/fetch_data.R
+  - 2_process/src/prep_data.R
+  - 3_visualize/src/plot_data.R
+
+targets:
+  all:
+    depends: 3_visualize/out/figure_1.png
+
+  1_fetch/out/model_RMSEs.csv:
+    command: fetch_data(target_name)
+
+  2_process/out/model_summary_results:
+    command: prep_data("1_fetch/out/model_RMSEs.csv", target_name)
+
+  3_visualize/out/figure_1.png:
+    command: plot_data('2_process/out/model_summary_results.csv', target_name)
